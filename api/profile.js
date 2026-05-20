@@ -26,9 +26,8 @@ async function fetchProfile(username) {
         avatarUrl
         followers { totalCount }
         following { totalCount }
-        organizations(first: 6) {
+        organizations {
           totalCount
-          nodes { login avatarUrl }
         }
         contributionsCollection {
           totalCommitContributions
