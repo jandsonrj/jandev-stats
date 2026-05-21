@@ -36,8 +36,8 @@ export default async function handler(req, res) {
   }
 
   const theme = resolveTheme(themeName);
-  const W = 495;
-  const H = 195;
+  const W = parseInt(url.searchParams.get('card_width') || '495', 10);
+  const H = parseInt(url.searchParams.get('height') || '195', 10);
 
   try {
     const s = await fetchStreakStats(username);
