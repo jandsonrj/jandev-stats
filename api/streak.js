@@ -1,5 +1,6 @@
 import { fetchStreakStats } from '../lib/github.js';
 import { resolveTheme } from '../lib/themes.js';
+import { fireStrip } from '../lib/fire.js';
 
 function escapeXml(str = '') {
   return String(str)
@@ -63,6 +64,8 @@ export default async function handler(req, res) {
 
   <rect x="0.5" y="0.5" rx="6" width="${W - 1}" height="${H - 1}"
     fill="${theme.bg}" stroke="${theme.border}"/>
+
+  ${fireStrip(W)}
 
   <!-- Coluna 1: Total contributions -->
   <g class="col col1" transform="translate(${colW * 0.5}, ${H / 2})">
