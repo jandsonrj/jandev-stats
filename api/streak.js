@@ -57,7 +57,7 @@ export default async function handler(req, res) {
     .col2   { animation-delay: 250ms; }
     .col3   { animation-delay: 400ms; }
     .fire   { stroke: ${theme.icon}; animation: flicker 2s ease-in-out infinite; }
-    @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes rise { from { opacity: 0; } to { opacity: 1; } }
     @keyframes flicker { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
   </style>
 

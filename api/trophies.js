@@ -118,8 +118,8 @@ export default async function handler(req, res) {
   <style>
     .cell { opacity: 0; animation: pop 0.4s ease-out forwards; }
     @keyframes pop {
-      0% { opacity: 0; transform: scale(0.9); }
-      100% { opacity: 1; transform: scale(1); }
+      0% { opacity: 0; }
+      100% { opacity: 1; }
     }
   </style>
   <rect x="0.5" y="0.5" rx="6" width="${W - 1}" height="${H - 1}"

@@ -124,7 +124,7 @@ export default async function handler(req, res) {
     .bio    { font: 400 13px 'Segoe UI', Ubuntu, Sans-Serif; fill: ${theme.text}; opacity: 0.85; }
     .meta   { font: 400 12px 'Segoe UI', Ubuntu, Sans-Serif; fill: ${theme.text}; opacity: 0.65; }
     .stat   { opacity: 0; animation: rise 0.5s ease-out forwards; }
-    @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes rise { from { opacity: 0; } to { opacity: 1; } }
   </style>
 
   <!-- Faixa lateral decorativa -->
