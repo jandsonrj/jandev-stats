@@ -1,6 +1,5 @@
 import { fetchStreakStats } from '../lib/github.js';
 import { resolveTheme } from '../lib/themes.js';
-import { fireStrip } from '../lib/fire.js';
 
 function escapeXml(str = '') {
   return String(str)
@@ -21,10 +20,8 @@ function fmtRange(start, end) {
   return `${fmt(start)} – ${fmt(end)}`;
 }
 
-const FIRE_ICON = `
-  <path d="M12 2c-1 3-3 5-3 8a3 3 0 0 0 6 0c0-1 1-2 1-3 2 2 3 5 3 8a7 7 0 1 1-14 0c0-5 4-9 7-13z"
-        fill="none" stroke-width="1.5" stroke-linejoin="round"/>
-`;
+// Caminho de uma chama — forma fechada, pensada pra ser preenchida.
+const FLAME_D = 'M12 2c-1 3-3 5-3 8a3 3 0 0 0 6 0c0-1 1-2 1-3 2 2 3 5 3 8a7 7 0 1 1-14 0c0-5 4-9 7-13z';
 
 export default async function handler(req, res) {
   const url = new URL(req.url, `http://${req.headers.host}`);
@@ -57,15 +54,22 @@ export default async function handler(req, res) {
     .col1   { animation-delay: 100ms; }
     .col2   { animation-delay: 250ms; }
     .col3   { animation-delay: 400ms; }
-    .fire   { stroke: ${theme.icon}; animation: flicker 2s ease-in-out infinite; }
     @keyframes rise { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes flicker { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
   </style>
+
+  <defs>
+    <linearGradient id="flameGrad" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#ff3d17"/>
+      <stop offset="52%" stop-color="#ff8c2f"/>
+      <stop offset="100%" stop-color="#ffe07a"/>
+    </linearGradient>
+    <filter id="flameBlur" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="2.2"/>
+    </filter>
+  </defs>
 
   <rect x="0.5" y="0.5" rx="6" width="${W - 1}" height="${H - 1}"
     fill="${theme.bg}" stroke="${theme.border}"/>
-
-  ${fireStrip(W)}
 
   <!-- Coluna 1: Total contributions -->
   <g class="col col1" transform="translate(${colW * 0.5}, ${H / 2})">
@@ -79,8 +83,19 @@ export default async function handler(req, res) {
 
   <!-- Coluna 2: Current streak (com chama) -->
   <g class="col col2" transform="translate(${colW * 1.5}, ${H / 2})">
-    <g transform="translate(-12, -68) scale(1)" class="fire" fill="none">
-      ${FIRE_ICON}
+    <g transform="translate(0, -42)">
+      <g>
+        <animateTransform attributeName="transform" type="scale"
+          values="0.95;1.1;0.95" keyTimes="0;0.5;1" calcMode="spline"
+          keySplines="0.4 0 0.6 1;0.4 0 0.6 1" dur="2.6s" repeatCount="indefinite"/>
+        <g transform="translate(-11, -25)">
+          <path fill="#ff6a1a" filter="url(#flameBlur)" d="${FLAME_D}">
+            <animate attributeName="opacity" values="0.25;0.55;0.25"
+              dur="2.6s" repeatCount="indefinite"/>
+          </path>
+          <path fill="url(#flameGrad)" d="${FLAME_D}"/>
+        </g>
+      </g>
     </g>
     <text class="num" x="0" y="-15" text-anchor="middle">${s.currentStreak}</text>
     <text class="label" x="0" y="15" text-anchor="middle">Current Streak</text>

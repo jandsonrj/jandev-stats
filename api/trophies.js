@@ -1,7 +1,6 @@
 import { fetchUserStats, aggregateLanguages, fetchStreakStats } from '../lib/github.js';
 import { resolveTheme } from '../lib/themes.js';
 import { TROPHIES, calculateTier, tierColor } from '../lib/trophies.js';
-import { fireStrip } from '../lib/fire.js';
 
 function escapeXml(str = '') {
   return String(str)
@@ -125,7 +124,6 @@ export default async function handler(req, res) {
   </style>
   <rect x="0.5" y="0.5" rx="6" width="${W - 1}" height="${H - 1}"
     fill="${theme.bg}" stroke="${theme.border}"/>
-  ${fireStrip(W)}
   ${hideTitle ? '' : `<text x="${margin + 12}" y="32"
     font-family="Segoe UI, Ubuntu, sans-serif" font-size="18" font-weight="600"
     fill="${theme.title}">🏆 GitHub Trophies</text>`}
